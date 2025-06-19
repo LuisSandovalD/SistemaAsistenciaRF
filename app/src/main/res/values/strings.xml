@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SistemaAsistenciaRF</string>
+    <string name="login">Acceder</string>
+    <string name="register">Registrarse</string>
+</resources>
