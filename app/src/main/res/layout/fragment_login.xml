@@ -1,13 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#377cb5">
 
-    <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/logo" />
-</FrameLayout>
+    <!-- Logo -->
+    <LinearLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/authaccess"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FaceEntry"
+            android:textColor="#8dcde6"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:elevation="10dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <!-- Contenedor inferior -->
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:background="@drawable/radiusrectangle"
+        android:backgroundTint="#ffff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Label Correo -->
+        <TextView
+            android:id="@+id/textUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Correo Electrónico"
+            android:textColor="#0288D1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- Campo Usuario -->
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radiusinput"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawablePadding="16dp"
+            android:hint="luissandoval@gmail.com"
+            android:inputType="textEmailAddress"
+            android:padding="20dp" />
+
+        <!-- Label Contraseña -->
+        <TextView
+            android:id="@+id/textPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Contraseña"
+            android:textColor="#0288D1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- Campo Contraseña -->
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/radiusinput"
+            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="16dp"
+            android:hint="**************"
+            android:inputType="textPassword"
+            android:padding="20dp" />
+
+        <!-- Botón Ingresar -->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/stylebtn"
+            android:backgroundTint="#3F51B5"
+            android:padding="20dp"
+            android:text="Ingresar"
+            android:textColor="#FFFFFF" />
+
+        <!-- Olvidaste tu contraseña -->
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textColor="#3F51B5"
+            android:textStyle="bold" />
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="#CCCCCC" />
+
+        <!-- Crear cuenta -->
+        <TextView
+            android:id="@+id/registerLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="¿No tienes una cuenta? Regístrate"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginBottom="35dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

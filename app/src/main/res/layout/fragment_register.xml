@@ -1,7 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#377cb5">
 
-</LinearLayout>
+    <!-- Logo -->
+    <LinearLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FaceEntry"
+            android:textColor="#8dcde6"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:elevation="10dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Contenedor inferior -->
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:background="@drawable/radiusrectangle"
+        android:backgroundTint="#ffff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Label Nombre -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Campo Nombre -->
+        <EditText
+            android:id="@+id/nameUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radiusinput"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawablePadding="16dp"
+            android:hint="Luis Enrique"
+            android:inputType="textPersonName"
+            android:padding="20dp" />
+
+        <!-- Label Apellido -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apellido"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <!-- Campo Apellido -->
+        <EditText
+            android:id="@+id/firtUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radiusinput"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawablePadding="16dp"
+            android:hint="Sandoval Carbonel"
+            android:inputType="textPersonName"
+            android:padding="20dp"
+            android:layout_marginTop="12dp"/>
+
+        <!-- Label Correo -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Correo electrónico"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <!-- Campo Correo -->
+        <EditText
+            android:id="@+id/emailUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radiusinput"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawablePadding="16dp"
+            android:layout_marginTop="12dp"
+            android:hint="luissandoval@gmail.com"
+            android:inputType="textEmailAddress"
+            android:padding="20dp" />
+
+        <!-- Label Contraseña -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <!-- Campo Contraseña -->
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/radiusinput"
+            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="16dp"
+
+            android:hint="**************"
+            android:inputType="textPassword"
+            android:padding="20dp" />
+
+        <!-- Botón Ingresar -->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/stylebtn"
+            android:backgroundTint="#3F51B5"
+            android:padding="20dp"
+            android:text="Crear cuenta"
+            android:textColor="#FFFFFF" />
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="#CCCCCC" />
+
+        <!-- Crear cuenta -->
+        <TextView
+            android:id="@+id/accessLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Ya tengo una cuenta"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginBottom="35dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

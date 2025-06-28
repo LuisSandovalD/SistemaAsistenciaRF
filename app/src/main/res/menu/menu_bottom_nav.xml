@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Inicio" />
+    <item
+        android:id="@+id/registrar"
+        android:icon="@drawable/register"
+        android:title="Registar" />
+    <item
+        android:id="@+id/nav_camara"
+        android:icon="@drawable/camara"
+        android:title="Camara" />
+
+</menu>

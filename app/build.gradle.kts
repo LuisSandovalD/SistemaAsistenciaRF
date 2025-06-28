@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.kapt") // Necesario para Room
+    // ❌ NO agregar: id("org.tensorflow.lite") => evita errores con modelos personalizados
 }
 
 android {
@@ -19,6 +20,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // ❗️Para evitar compresión del archivo .tflite (es obligatorio si lo cargas manualmente)
+    aaptOptions {
+        noCompress += "tflite"
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -32,6 +38,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        mlModelBinding = true // ✅ Necesario si generas clases desde .tflite
     }
 
     compileOptions {
@@ -45,66 +52,66 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.runtime.livedata)
+    val roomVersion = "2.6.1"
+    val lifecycleVersion = "2.7.0"
+    val cameraxVersion = "1.3.2"
+
+    // --- Jetpack Navigation ---
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    // --- ROOM (Base de datos local) ---
-    val roomVersion = "2.6.1"
+
+    // --- ML Kit: Detección de rostros ---
+    implementation("com.google.mlkit:face-detection:16.1.5")
+
+    // --- TensorFlow Lite: Reconocimiento facial ---
+    implementation("org.tensorflow:tensorflow-lite:2.13.0")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.3")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.13.0")
+    implementation(libs.tensorflow.lite.metadata) // (opcional, si usas metadata)
+
+    // --- CameraX ---
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("androidx.camera:camera-extensions:$cameraxVersion")
+
+    // --- Room (base de datos local) ---
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-    // --- ViewModel y LiveData ---
-    val lifecycleVersion = "2.7.0"
+    // --- Ciclo de vida y ViewModels ---
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
 
-    // --- Kotlin Coroutines ---
+    // --- Coroutines ---
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
-    // --- CameraX ---
-    val cameraXVersion = "1.3.2"
-    implementation("androidx.camera:camera-core:$cameraXVersion")
-    implementation("androidx.camera:camera-camera2:$cameraXVersion")
-    implementation("androidx.camera:camera-lifecycle:$cameraXVersion")
-    implementation("androidx.camera:camera-view:$cameraXVersion")
-    implementation("androidx.camera:camera-extensions:$cameraXVersion")
-
-    // --- ML Kit (Detección facial) ---
-    implementation("com.google.mlkit:face-detection:16.1.5")
-
-    // --- RecyclerView (por si usas listas con XML o Compose LazyColumn) ---
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-
-    // --- Jetpack Compose + Material3 ---
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-
-    // --- Herramientas de UI y Previews ---
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
-    // --- Testing ---
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-
+    // --- Compatibilidad y Material Design ---
+    implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
 
-    // Para usar viewModel() dentro de composables
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    // --- Jetpack Compose ---
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
 
-// Para usar collectAsStateWithLifecycle()
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    // --- RecyclerView ---
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
 
-
+    // --- Debug / Test ---
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.05.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 }

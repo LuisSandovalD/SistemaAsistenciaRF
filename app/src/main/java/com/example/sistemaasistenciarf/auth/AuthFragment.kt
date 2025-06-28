@@ -21,10 +21,12 @@ class AuthFragment : ComponentActivity() {
         btnLogin.setOnClickListener {
             val intentActivity = Intent(this, LoginFragment::class.java)
             startActivity(intentActivity)
+            finish()
         }
         btnRegister.setOnClickListener {
-            val intentActivity = Intent(this, RegisterFragment::class.java)
-            startActivity(intentActivity)
+            val intentRegister = Intent(this, RegisterFragment::class.java)
+            startActivity(intentRegister)
+            finish()
         }
     }
 
