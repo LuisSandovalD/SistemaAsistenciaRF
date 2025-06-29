@@ -17,6 +17,7 @@ roomExternalAntlr = "2.7.2"
 tensorflowLite = "2.13.0"
 runtimeLivedataVersion = "1.8.3"
 tensorflowLiteMetadata = "0.1.0"
+adapters = "3.2.0-alpha11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,7 @@ androidx-room-external-antlr = { group = "androidx.room", name = "room-external-
 tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflowLite" }
 runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedataVersion" }
 tensorflow-lite-metadata = { group = "org.tensorflow", name = "tensorflow-lite-metadata", version.ref = "tensorflowLiteMetadata" }
+androidx-adapters = { group = "androidx.databinding", name = "adapters", version.ref = "adapters" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

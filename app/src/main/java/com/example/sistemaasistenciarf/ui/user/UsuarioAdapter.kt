@@ -1,4 +1,4 @@
-package com.example.sistemaasistenciarf.ui.main.admin
+package com.example.sistemaasistenciarf.ui.user
 
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
@@ -15,7 +15,8 @@ import java.io.File
 class UsuarioAdapter(
     private var listaUsuarios: List<Usuario>,
     private val onEditar: (Usuario) -> Unit,
-    private val onEliminar: (Usuario) -> Unit
+    private val onEliminar: (Usuario) -> Unit,
+    private val onVerAsistencia: (Usuario) -> Unit
 ) : RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder>() {
 
     inner class UsuarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,6 +25,7 @@ class UsuarioAdapter(
         val imagenRostro: ImageView = itemView.findViewById(R.id.imgRostro)
         val btnEditar: Button = itemView.findViewById(R.id.btnEditar)
         val btnEliminar: Button = itemView.findViewById(R.id.btnEliminar)
+        val btnVerAsistencia: Button = itemView.findViewById(R.id.btnVerAsistencia)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsuarioViewHolder {
@@ -52,6 +54,7 @@ class UsuarioAdapter(
 
         holder.btnEditar.setOnClickListener { onEditar(usuario) }
         holder.btnEliminar.setOnClickListener { onEliminar(usuario) }
+        holder.btnVerAsistencia.setOnClickListener { onVerAsistencia(usuario) } // 👈 añadido
     }
 
     override fun getItemCount(): Int = listaUsuarios.size

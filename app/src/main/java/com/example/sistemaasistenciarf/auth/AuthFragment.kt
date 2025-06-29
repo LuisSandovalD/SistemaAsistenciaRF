@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.content.Intent
 import android.widget.Button
 import androidx.activity.ComponentActivity
+import com.example.sistemaasistenciarf.hideSystemUI
 
 @SuppressLint("CustomSplashScreen")
 class AuthFragment : ComponentActivity() {
@@ -28,6 +29,7 @@ class AuthFragment : ComponentActivity() {
             startActivity(intentRegister)
             finish()
         }
+        hideSystemUI()
     }
 
 }

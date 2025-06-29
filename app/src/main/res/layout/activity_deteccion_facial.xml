@@ -4,7 +4,6 @@
     android:id="@+id/layoutDeteccionFacial"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -20,14 +19,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="8dp" />
 
-    <!-- Vista de cámara (PreviewView para CameraX) -->
+    <!-- Vista de cámara -->
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:implementationMode="performance"
-        app:scaleType="fillCenter" />
+        android:layout_height="match_parent"
+        app:scaleType="fillCenter"
+        app:implementationMode="performance" />
+
 
     <!-- Botón para cerrar -->
     <Button

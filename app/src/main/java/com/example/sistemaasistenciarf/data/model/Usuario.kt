@@ -19,5 +19,6 @@ data class Usuario(
     val correo: String,
     val rutaRostro: String,
     val estado: Boolean = true,
-    val fechaRegistro: String = getFechaActual()
+    val fechaRegistro: String = getFechaActual(),
+    val embedding: FloatArray
 ) : Serializable

@@ -1,4 +1,4 @@
-package com.example.sistemaasistenciarf.ui.asistencia.adapter
+package com.example.sistemaasistenciarf.ui.asistencia
 
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +27,18 @@ class AsistenciaAdapter(private var lista: List<Asistencia>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val asistencia = lista[position]
         holder.tvNombre.text = asistencia.nombreUsuario
-        val formato = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-        holder.tvFecha.text = formato.format(Date(asistencia.fechaHora))
+
+        val formatoEntrada = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formatoSalida = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+
+        val fechaFormateada = try {
+            val fecha = formatoEntrada.parse(asistencia.fechaHora)
+            formatoSalida.format(fecha!!)
+        } catch (e: Exception) {
+            asistencia.fechaHora // Si falla el parseo, se muestra el string original
+        }
+
+        holder.tvFecha.text = fechaFormateada
     }
 
     override fun getItemCount(): Int = lista.size

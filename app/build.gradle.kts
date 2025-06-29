@@ -54,11 +54,11 @@ android {
 dependencies {
     val roomVersion = "2.6.1"
     val lifecycleVersion = "2.7.0"
-    val cameraxVersion = "1.3.2"
+    val cameraxVersion = "1.3.3" // Versión estable recomendada
 
     // --- Jetpack Navigation ---
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     // --- ML Kit: Detección de rostros ---
     implementation("com.google.mlkit:face-detection:16.1.5")
@@ -67,7 +67,7 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite:2.13.0")
     implementation("org.tensorflow:tensorflow-lite-support:0.4.3")
     implementation("org.tensorflow:tensorflow-lite-gpu:2.13.0")
-    implementation(libs.tensorflow.lite.metadata) // (opcional, si usas metadata)
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.1.0-rc2") // opcional
 
     // --- CameraX ---
     implementation("androidx.camera:camera-core:$cameraxVersion")
@@ -81,13 +81,13 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
 
-    // --- Ciclo de vida y ViewModels ---
+    // --- Ciclo de vida y ViewModel (MVVM) ---
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
 
-    // --- Coroutines ---
+    // --- Kotlin Coroutines ---
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
@@ -95,7 +95,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")
 
-    // --- Jetpack Compose ---
+    // --- Core y Jetpack Compose (si lo usas) ---
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation(platform("androidx.compose:compose-bom:2024.05.00"))
@@ -106,7 +106,7 @@ dependencies {
     // --- RecyclerView ---
     implementation("androidx.recyclerview:recyclerview:1.3.2")
 
-    // --- Debug / Test ---
+    // --- Debug y Test ---
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     testImplementation("junit:junit:4.13.2")

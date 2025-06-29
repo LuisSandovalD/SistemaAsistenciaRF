@@ -3,7 +3,7 @@ package com.example.sistemaasistenciarf.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sistemaasistenciarf.data.local.AppDatabase
+import com.example.sistemaasistenciarf.data.local.database.AppDatabase
 import com.example.sistemaasistenciarf.data.model.Asistencia
 import kotlinx.coroutines.launch
 

@@ -1,12 +1,13 @@
-// Ruta: com.example.sistemaasistenciarf.data.local.AppDatabase.kt
-package com.example.sistemaasistenciarf.data.local
+package com.example.sistemaasistenciarf.data.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.sistemaasistenciarf.data.local.dao.*
 import com.example.sistemaasistenciarf.data.model.*
+import com.example.sistemaasistenciarf.util.Converters
 
 @Database(
     entities = [
@@ -14,18 +15,14 @@ import com.example.sistemaasistenciarf.data.model.*
         Usuario::class,
         Asistencia::class
     ],
-    version = 4, // Asegúrate de incrementar si haces cambios
+    version = 6,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    // DAO para administrador (UsuarioAdmin)
     abstract fun adminDao(): AdminDao
-
-    // DAO para profesores (Usuario)
     abstract fun usuarioDao(): UsuarioDao
-
-    // DAO para asistencias
     abstract fun asistenciaDao(): AsistenciaDao
 
     companion object {
@@ -38,7 +35,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "asistencia_db"
                 )
-                    .fallbackToDestructiveMigration() // ⚠️ Borra datos si hay cambios estructurales
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { instancia = it }
             }

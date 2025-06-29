@@ -8,6 +8,5 @@ data class Asistencia(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val usuarioId: Int,
     val nombreUsuario: String,
-    val fechaHora: String,
-
+    val fechaHora: String
 )

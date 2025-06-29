@@ -1,22 +1,33 @@
-package com.example.sistemaasistenciarf.ui.admin
+package com.example.sistemaasistenciarf.ui.user
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Switch
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sistemaasistenciarf.R
 import com.example.sistemaasistenciarf.data.model.Usuario
+import com.example.sistemaasistenciarf.hideSystemUI
+import com.example.sistemaasistenciarf.ml.MyFacenet
+import com.example.sistemaasistenciarf.util.BitmapUtils
 import com.example.sistemaasistenciarf.viewmodel.UsuarioViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import kotlin.math.sqrt
 
 class FormularioUsuarioActivity : AppCompatActivity() {
 
@@ -32,20 +43,22 @@ class FormularioUsuarioActivity : AppCompatActivity() {
 
     private var usuarioExistente: Usuario? = null
     private var rutaImagen: String? = null
+    private var embedding: FloatArray? = null
 
-    // Abrir galería para seleccionar imagen
+    private var modeloFacial: MyFacenet? = null
+
     private val seleccionarImagenLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { resultado ->
-        if (resultado.resultCode == Activity.RESULT_OK) {
+        if (resultado.resultCode == RESULT_OK) {
             val uri: Uri? = resultado.data?.data
             uri?.let {
                 val inputStream: InputStream? = contentResolver.openInputStream(it)
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 ivRostro.setImageBitmap(bitmap)
 
-                // Guardar imagen en almacenamiento interno
                 rutaImagen = guardarImagenEnArchivo(bitmap)
+                procesarEmbedding(bitmap)
             }
         }
     }
@@ -54,7 +67,9 @@ class FormularioUsuarioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_usuario)
 
-        // Vincular vistas
+        hideSystemUI()
+
+
         etNombre = findViewById(R.id.etNombre)
         etApellido = findViewById(R.id.etApellido)
         etCorreo = findViewById(R.id.etCorreo)
@@ -63,7 +78,6 @@ class FormularioUsuarioActivity : AppCompatActivity() {
         btnGuardar = findViewById(R.id.btnGuardar)
         btnCapturarRostro = findViewById(R.id.btnCapturarRostro)
 
-        // Comprobar si se va a editar un usuario existente
         usuarioExistente = intent.getSerializableExtra("usuario") as? Usuario
         usuarioExistente?.let {
             etNombre.setText(it.nombre)
@@ -71,10 +85,14 @@ class FormularioUsuarioActivity : AppCompatActivity() {
             etCorreo.setText(it.correo)
             switchEstado.isChecked = it.estado
             rutaImagen = it.rutaRostro
+            embedding = it.embedding
             mostrarImagenDesdeRuta(it.rutaRostro)
         }
 
-        // Acciones de botones
+        CoroutineScope(Dispatchers.IO).launch {
+            modeloFacial = MyFacenet.Companion.newInstance(this@FormularioUsuarioActivity)
+        }
+
         btnGuardar.setOnClickListener { guardarUsuario() }
         btnCapturarRostro.setOnClickListener { abrirGaleria() }
     }
@@ -85,12 +103,44 @@ class FormularioUsuarioActivity : AppCompatActivity() {
     }
 
     private fun guardarImagenEnArchivo(bitmap: Bitmap): String {
-        val fileName = "rostro_${System.currentTimeMillis()}.jpg"
+        val fileName = "rostro_${System.currentTimeMillis()}.png"
         val file = File(filesDir, fileName)
         FileOutputStream(file).use { output ->
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, output)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
         }
         return file.absolutePath
+    }
+
+
+    private fun procesarEmbedding(bitmap: Bitmap) {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                val resized = BitmapUtils.resizeBitmap(bitmap, 160, 160)
+                val vector = modeloFacial?.getEmbedding(resized)
+
+                if (vector != null) {
+                    embedding = normalizeL2(vector) // ✅ Normalización aplicada aquí
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@FormularioUsuarioActivity,
+                            "✅ Rostro procesado",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                } else {
+                    throw Exception("Embedding nulo")
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@FormularioUsuarioActivity,
+                        "❌ Error procesando rostro",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun guardarUsuario() {
@@ -99,10 +149,10 @@ class FormularioUsuarioActivity : AppCompatActivity() {
         val correo = etCorreo.text.toString().trim()
         val estado = switchEstado.isChecked
         val rutaRostro = rutaImagen
+        val embeddingActual = embedding
 
-        // Validación básica
-        if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || rutaRostro == null) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
+        if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || rutaRostro == null || embeddingActual == null) {
+            Toast.makeText(this, "Completa todos los campos y selecciona un rostro", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -112,7 +162,8 @@ class FormularioUsuarioActivity : AppCompatActivity() {
             apellido = apellido,
             correo = correo,
             rutaRostro = rutaRostro,
-            estado = estado
+            estado = estado,
+            embedding = embeddingActual
         )
 
         if (usuarioExistente == null) {
@@ -133,5 +184,18 @@ class FormularioUsuarioActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        modeloFacial?.close()
+    }
+
+    /**
+     * 🔁 Normaliza un vector con L2 (euclideana) para que tenga magnitud 1
+     */
+    private fun normalizeL2(vector: FloatArray): FloatArray {
+        val norm = sqrt(vector.fold(0f) { acc, v -> acc + v * v })
+        return if (norm == 0f) vector else vector.map { it / norm }.toFloatArray()
     }
 }

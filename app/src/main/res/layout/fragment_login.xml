@@ -67,10 +67,12 @@
 
         <!-- Campo Usuario -->
         <EditText
+            style="@style/EstiloBotonRedondeado"
+            android:background="@color/gray_100"
             android:id="@+id/usernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/radiusinput"
+            android:textColor="@color/gray_700"
             android:drawableStart="@drawable/baseline_email_24"
             android:drawablePadding="16dp"
             android:hint="luissandoval@gmail.com"
@@ -92,23 +94,24 @@
         <EditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
+            android:background="@color/gray_100"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/radiusinput"
             android:drawableStart="@android:drawable/ic_lock_idle_lock"
             android:drawablePadding="16dp"
             android:hint="**************"
+            android:textColor="@color/gray_700"
             android:inputType="textPassword"
             android:padding="20dp" />
 
         <!-- Botón Ingresar -->
         <Button
+            style="@style/EstiloBotonRedondeado"
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:background="@drawable/stylebtn"
-            android:backgroundTint="#3F51B5"
+            android:backgroundTint="@color/colorPrimary"
             android:padding="20dp"
             android:text="Ingresar"
             android:textColor="#FFFFFF" />

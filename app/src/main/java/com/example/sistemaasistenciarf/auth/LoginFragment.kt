@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.widget.*
 import androidx.activity.ComponentActivity
 import com.example.sistemaasistenciarf.R
-import com.example.sistemaasistenciarf.data.local.AppDatabase
+import com.example.sistemaasistenciarf.data.local.database.AppDatabase
 import com.example.sistemaasistenciarf.data.local.dao.AdminDao
+import com.example.sistemaasistenciarf.data.model.UsuarioAdmin
+import com.example.sistemaasistenciarf.hideSystemUI
 import com.example.sistemaasistenciarf.ui.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +23,8 @@ class LoginFragment : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_login)
 
+        hideSystemUI()
+
         db = AppDatabase.obtenerBaseDeDatos(this)
         adminDao = db.adminDao()
 
@@ -30,19 +34,37 @@ class LoginFragment : ComponentActivity() {
         val registerLink = findViewById<TextView>(R.id.registerLink)
 
         loginButton.setOnClickListener {
-            val email = emailField.text.toString()
-            val password = passwordField.text.toString()
+            val email = emailField.text.toString().trim()
+            val password = passwordField.text.toString().trim()
 
-            // Room no permite en el hilo principal, usamos corrutina
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Complete todos los campos", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             CoroutineScope(Dispatchers.IO).launch {
                 val user = adminDao.login(email, password)
                 withContext(Dispatchers.Main) {
                     if (user != null) {
-                        Toast.makeText(this@LoginFragment, "Bienvenido, ${user.nombre}", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@LoginFragment, MainActivity::class.java))
+                        Toast.makeText(
+                            this@LoginFragment,
+                            "Bienvenido, ${user.nombre}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        // 👉 Enviar el admin logueado correctamente a MainActivity
+                        val intent = Intent(this@LoginFragment, MainActivity::class.java)
+                        intent.putExtra("admin", user)
+                        startActivity(intent)
+
+                        // ✅ Cierra la pantalla de login para que no regrese ni se relance
                         finish()
                     } else {
-                        Toast.makeText(this@LoginFragment, "Datos incorrectos", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@LoginFragment,
+                            "Datos incorrectos",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -53,4 +75,3 @@ class LoginFragment : ComponentActivity() {
         }
     }
 }
-

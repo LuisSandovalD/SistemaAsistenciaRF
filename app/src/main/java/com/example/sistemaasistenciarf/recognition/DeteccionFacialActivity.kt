@@ -1,4 +1,4 @@
-// DeteccionFacialActivity.kt
+// File: DeteccionFacialActivity.kt
 package com.example.sistemaasistenciarf.recognition
 
 import android.Manifest
@@ -19,11 +19,9 @@ import com.example.sistemaasistenciarf.util.BitmapUtils
 import com.example.sistemaasistenciarf.viewmodel.AsistenciaViewModel
 import com.example.sistemaasistenciarf.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.*
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.sqrt
 
 class DeteccionFacialActivity : AppCompatActivity() {
 
@@ -37,7 +35,6 @@ class DeteccionFacialActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deteccion_facial)
 
-        // Solicitud de permisos
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -70,26 +67,20 @@ class DeteccionFacialActivity : AppCompatActivity() {
                 val usuariosEmbebidos = listaUsuarios.mapNotNull { usuario ->
                     val bitmap = BitmapUtils.loadBitmapFromPath(usuario.rutaRostro)
                     if (bitmap != null) {
-                        val resized = BitmapUtils.resizeBitmap(bitmap, 160, 160)
+                        try {
+                            val resized = BitmapUtils.resizeBitmap(bitmap, 160, 160)
+                            val embedding = modelo.getEmbedding(resized)
+                            val normalizedEmbedding = normalizeL2(embedding)
 
-                        // Convertir a TensorImage con tipo FLOAT32
-                        val tensorImage = TensorImage(DataType.FLOAT32)
-                        tensorImage.load(resized)
-                        val inputBuffer = tensorImage.buffer
-
-                        val input = TensorBuffer.createFixedSize(
-                            intArrayOf(1, 160, 160, 3),
-                            DataType.FLOAT32
-                        )
-                        input.loadBuffer(inputBuffer)
-
-                        val embedding = modelo.process(input).outputFeature0AsTensorBuffer.floatArray
-
-                        UsuarioEmbebido(
-                            usuario.id,
-                            "${usuario.nombre} ${usuario.apellido}",
-                            embedding
-                        )
+                            UsuarioEmbebido(
+                                usuario.id,
+                                "${usuario.nombre} ${usuario.apellido}",
+                                normalizedEmbedding
+                            )
+                        } catch (e: Exception) {
+                            Log.w("DeteccionFacial", "⚠️ Error procesando rostro de ${usuario.nombre}", e)
+                            null
+                        }
                     } else {
                         Log.w("DeteccionFacial", "⚠️ No se pudo cargar rostro para ${usuario.nombre}")
                         null
@@ -102,7 +93,7 @@ class DeteccionFacialActivity : AppCompatActivity() {
                     if (usuariosEmbebidos.isEmpty()) {
                         Toast.makeText(
                             this@DeteccionFacialActivity,
-                            "⚠️ No hay rostros registrados",
+                            "⚠️ No hay usuarios con rostros válidos",
                             Toast.LENGTH_LONG
                         ).show()
                         finish()
@@ -127,6 +118,7 @@ class DeteccionFacialActivity : AppCompatActivity() {
                                 "✅ Asistencia registrada para: ${usuario.nombreCompleto}",
                                 Toast.LENGTH_LONG
                             ).show()
+
                             finish()
                         }
                     )
@@ -139,5 +131,10 @@ class DeteccionFacialActivity : AppCompatActivity() {
     private fun obtenerFechaHoraActual(): String {
         val formato = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         return formato.format(Date())
+    }
+
+    private fun normalizeL2(vector: FloatArray): FloatArray {
+        val norm = sqrt(vector.fold(0f) { acc, v -> acc + v * v })
+        return if (norm == 0f) vector else vector.map { it / norm }.toFloatArray()
     }
 }

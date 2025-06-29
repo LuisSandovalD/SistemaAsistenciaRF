@@ -38,25 +38,26 @@
         <activity android:name=".auth.AuthFragment" android:exported="true" />
         <activity android:name=".auth.LoginFragment" android:exported="true" />
         <activity android:name=".auth.RegisterFragment" android:exported="true" />
+        <activity android:name=".ui.asistencia.ListaAsistenciasActivity"  android:exported="true"/>
+        <activity android:name=".ui.admin.EditarAdminActivity"  android:exported="true"/>
+
+
 
         <!-- Navegación principal -->
         <activity android:name=".ui.MainActivity" android:exported="true" />
 
         <!-- Gestión de usuarios -->
         <activity
-            android:name=".ui.admin.ListaUsuariosActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:name=".ui.user.ListaUsuariosActivity"
+            android:exported="false" />
         <activity
-            android:name=".ui.admin.FormularioUsuarioActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:name=".ui.user.FormularioUsuarioActivity"
+            android:exported="false" />
 
         <!-- Detección facial -->
         <activity
             android:name=".recognition.DeteccionFacialActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:exported="false"/>
 
     </application>
 </manifest>

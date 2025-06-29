@@ -1,312 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#6274E7">
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/gray_300">
 
-    <ScrollView
-        android:id="@+id/scrollContent"
+<!-- Header fijo -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:background="@drawable/radius_bottom"
+        android:backgroundTint="@color/colorPrimaryVariant"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <!-- Contenedor de texto -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="25dp">
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/logoImage3">
 
-            <!-- HEADER -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/headerContainer"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_saludo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:textSize="25sp"
+                android:text="Luis Sandoval"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="4dp" />
 
-                <Button
-                    android:id="@+id/logoImage1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FaceEntry"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:textColor="#90FFFFFF"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-                <Button
-                    android:id="@+id/logoImage3"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:backgroundTint="#B3FFFFFF"
-                    android:background="@drawable/circle"
-                    android:text="👤"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- MAIN CONTENT -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/mainContainer"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_fecha_actual"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                app:layout_constraintTop_toBottomOf="@id/headerContainer"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:text="Administrador"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?android:attr/textColorSecondaryInverse" />
+        </LinearLayout>
 
-                <!-- CARD: FECHA -->
-                <FrameLayout
-                    android:id="@+id/card_fecha"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/radiusinput"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+        <!-- Botón de perfil -->
+        <ImageButton
+            android:id="@+id/logoImage3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/cuenta"
+            android:contentDescription="Perfil"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
 
-                        <TextView
-                            android:id="@+id/tv_saludo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Hola, Luis Sandoval"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/black"
-                            android:paddingBottom="4dp" />
-
-                        <TextView
-                            android:id="@+id/tv_fecha_actual"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Viernes, 21 de junio de 2025"
-                            android:textSize="16sp"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <!-- CARD: ASISTENCIAS -->
-                <FrameLayout
-                    android:id="@+id/card_asistencias"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    app:layout_constraintTop_toBottomOf="@id/card_fecha"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="@drawable/stylebtn">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginBottom="12dp">
-
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:background="@drawable/stylebtn"
-                                android:padding="5dp"
-                                android:src="@drawable/ic_bar_chart" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Resumen de Asistencias"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="#FFFFFF"
-                                android:layout_marginStart="12dp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:layout_marginBottom="16dp">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="12dp"
-                                android:background="@drawable/stylebtn"
-                                android:layout_marginEnd="8dp"
-                                android:gravity="center">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Asistencias hoy"
-                                    android:textSize="16sp"
-                                    android:textColor="#FFFFFF" />
-
-                                <TextView
-                                    android:id="@+id/tv_total_asistencias"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="25"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#00FFAA"
-                                    android:layout_marginTop="4dp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="12dp"
-                                android:background="@drawable/stylebtn"
-                                android:layout_marginStart="8dp"
-                                android:gravity="center">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Ausencias hoy"
-                                    android:textSize="16sp"
-                                    android:textColor="#FFFFFF" />
-
-                                <TextView
-                                    android:id="@+id/tv_total_ausencias"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="3"
-                                    android:textSize="20sp"
-                                    android:textStyle="bold"
-                                    android:textColor="#FF4444"
-                                    android:layout_marginTop="4dp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:background="@drawable/stylebtn"
-                            android:layout_marginBottom="12dp">
-
-                            <TextView
-                                android:id="@+id/tv_porcentaje_asistencia"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Porcentaje de asistencia:"
-                                android:textSize="14sp"
-                                android:textColor="#FFFFFF" />
-
-                            <ProgressBar
-                                android:id="@+id/progreso_asistencia"
-                                style="?android:attr/progressBarStyleHorizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="16dp"
-                                android:layout_marginTop="6dp"
-                                android:progress="89"
-                                android:max="100"
-                                android:progressTint="#4CAF50"
-                                android:backgroundTint="#B0BEC5" />
-                        </LinearLayout>
-
-                        <Button
-                            android:id="@+id/btn_ver_historial"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Ver historial de días anteriores"
-                            android:textColor="#FFFFFF"
-                            android:background="@drawable/radiusinput"
-                            android:drawableStart="@android:drawable/ic_menu_my_calendar"
-                            android:padding="10dp"
-                            android:layout_marginTop="8dp"
-                            android:elevation="2dp" />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <!-- ACCIONES -->
-                <LinearLayout
-                    android:id="@+id/layout_botones"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/card_asistencias"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <Button
-                        android:id="@+id/btn_registerUser"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Registrar Usuario"
-                        android:background="@drawable/radiusinput"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginBottom="12dp" />
-
-                    <Button
-                        android:id="@+id/btnVerUsuarios"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ver Usuarios"
-                        android:background="@drawable/radiusinput"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginBottom="12dp" />
-
-                    <Button
-                        android:id="@+id/btnTomarAsistencia"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tomar Asistencia"
-                        android:background="@drawable/radiusinput"
-                        android:textColor="#FFFFFF" />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-
-    <!-- NAVBAR FIJO -->
+    <!-- Footer fijo -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@drawable/radius_top"
         app:menu="@menu/menu_bottom_nav"
         app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/selector_bottom_nav"
-        app:itemTextColor="@color/selector_bottom_nav"
+        app:itemIconTint="@color/design_default_color_surface"
+        app:itemTextColor="@color/gray_300"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>

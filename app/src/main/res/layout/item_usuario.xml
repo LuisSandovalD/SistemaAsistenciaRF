@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    android:layout_marginHorizontal="8dp"
-    android:elevation="4dp"
-    android:padding="12dp"
+    android:layout_margin="12dp"
     android:foreground="?attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    card_view:cardCornerRadius="16dp"
+    card_view:cardElevation="8dp"
+    card_view:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Perfil -->
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingBottom="8dp">
+            android:layout_marginBottom="12dp">
 
             <ImageView
                 android:id="@+id/imgRostro"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginEnd="12dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="16dp"
                 android:scaleType="centerCrop"
-                android:background="@android:color/darker_gray" />
+                android:background="@drawable/circle"
+                android:contentDescription="Foto del rostro" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -40,38 +44,73 @@
                     android:id="@+id/tvNombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Nombre Apellido"
+                    android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:text="Nombre Apellido" />
+                    android:textColor="#212121" />
 
                 <TextView
                     android:id="@+id/tvCorreo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="correo@ejemplo.com"
-                    android:textColor="#666"
+                    android:textColor="#757575"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Línea separadora -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botones -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end">
+            android:gravity="center"
+            android:weightSum="3">
 
             <Button
                 android:id="@+id/btnEditar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Editar" />
+                android:layout_weight="1"
+                android:text="Editar"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:backgroundTint="#FFD54F"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="4dp" />
 
             <Button
                 android:id="@+id/btnEliminar"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Eliminar"
-                android:layout_marginStart="8dp"/>
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:backgroundTint="#E53935"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
+
+            <Button
+                android:id="@+id/btnVerAsistencia"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Asistencia"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:backgroundTint="#3949AB"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="4dp" />
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

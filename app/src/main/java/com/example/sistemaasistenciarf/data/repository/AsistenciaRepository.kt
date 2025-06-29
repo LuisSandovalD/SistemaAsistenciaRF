@@ -1,10 +1,15 @@
 package com.example.sistemaasistenciarf.data.repository
 
 
+import androidx.lifecycle.LiveData
 import com.example.sistemaasistenciarf.data.local.dao.AsistenciaDao
 import com.example.sistemaasistenciarf.data.model.Asistencia
 
 class AsistenciaRepository(private val dao: AsistenciaDao) {
-    fun obtenerAsistencias() = dao.obtenerAsistencias()
-    suspend fun registrar(asistencia: Asistencia) = dao.insertar(asistencia)
+
+    val todasLasAsistencias: LiveData<List<Asistencia>> = dao.obtenerAsistencias()
+
+    suspend fun insertar(asistencia: Asistencia) {
+        dao.insertar(asistencia)
+    }
 }

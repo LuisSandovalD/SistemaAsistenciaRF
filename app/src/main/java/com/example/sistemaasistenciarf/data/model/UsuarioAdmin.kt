@@ -3,6 +3,7 @@ package com.example.sistemaasistenciarf.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "usuarios_admin")
 data class UsuarioAdmin(
@@ -11,4 +12,4 @@ data class UsuarioAdmin(
     val apellido: String,
     val correo: String,
     val contraseña: String
-)
+): Serializable

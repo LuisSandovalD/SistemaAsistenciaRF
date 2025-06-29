@@ -1,4 +1,4 @@
-package com.example.sistemaasistenciarf.ui.admin
+package com.example.sistemaasistenciarf.ui.user
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sistemaasistenciarf.R
 import com.example.sistemaasistenciarf.data.model.Usuario
-import com.example.sistemaasistenciarf.ui.main.admin.UsuarioAdapter
+import com.example.sistemaasistenciarf.ui.user.FormularioUsuarioActivity
+import com.example.sistemaasistenciarf.ui.asistencia.ListaAsistenciasActivity
 import com.example.sistemaasistenciarf.viewmodel.UsuarioViewModel
 
 class ListaUsuariosActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class ListaUsuariosActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerUsuarios)
 
-        // Configura el adaptador con funciones para editar y eliminar
+        // Inicializar el adaptador con las acciones de editar, eliminar y ver asistencia
         adaptador = UsuarioAdapter(
             listaUsuarios = emptyList(),
             onEditar = { usuario: Usuario ->
@@ -34,6 +35,12 @@ class ListaUsuariosActivity : AppCompatActivity() {
             onEliminar = { usuario: Usuario ->
                 usuarioViewModel.eliminar(usuario)
                 Toast.makeText(this, "✅ Usuario eliminado", Toast.LENGTH_SHORT).show()
+            },
+            onVerAsistencia = { usuario: Usuario ->
+                val intent = Intent(this, ListaAsistenciasActivity::class.java)
+                intent.putExtra("usuarioId", usuario.id)
+                intent.putExtra("nombreUsuario", usuario.nombre)
+                startActivity(intent)
             }
         )
 
@@ -42,7 +49,7 @@ class ListaUsuariosActivity : AppCompatActivity() {
             adapter = adaptador
         }
 
-        // Observar cambios en la lista de usuarios
+        // Observar los cambios en la lista de usuarios
         usuarioViewModel.usuarios.observe(this) { lista ->
             adaptador.actualizarLista(lista)
         }

@@ -76,7 +76,7 @@
 
         <!-- Campo Apellido -->
         <EditText
-            android:id="@+id/firtUser"
+            android:id="@+id/lastNameUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/radiusinput"
