@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.content.Intent
 import android.widget.Button
 import androidx.activity.ComponentActivity
+import com.example.sistemaasistenciarf.hideSystemUI
 
 @SuppressLint("CustomSplashScreen")
 class AuthFragment : ComponentActivity() {
@@ -21,11 +22,14 @@ class AuthFragment : ComponentActivity() {
         btnLogin.setOnClickListener {
             val intentActivity = Intent(this, LoginFragment::class.java)
             startActivity(intentActivity)
+            finish()
         }
         btnRegister.setOnClickListener {
-            val intentActivity = Intent(this, RegisterFragment::class.java)
-            startActivity(intentActivity)
+            val intentRegister = Intent(this, RegisterFragment::class.java)
+            startActivity(intentRegister)
+            finish()
         }
+        hideSystemUI()
     }
 
 }

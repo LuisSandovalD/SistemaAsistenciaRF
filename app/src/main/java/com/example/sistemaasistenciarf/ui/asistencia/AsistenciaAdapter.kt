@@ -1,31 +1,50 @@
 package com.example.sistemaasistenciarf.ui.asistencia
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sistemaasistenciarf.R
 import com.example.sistemaasistenciarf.data.model.Asistencia
-import com.example.sistemaasistenciarf.databinding.ItemAsistenciaBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
-class AsistenciaAdapter(private val asistencias: List<Asistencia>) :
+class AsistenciaAdapter(private var lista: List<Asistencia>) :
     RecyclerView.Adapter<AsistenciaAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ItemAsistenciaBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(asistencia: Asistencia) {
-            binding.tvNombre.text = asistencia.nombre
-            binding.tvFecha.text = asistencia.fecha
-            binding.tvHora.text = asistencia.hora
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvNombre: TextView = itemView.findViewById(R.id.tvNombreUsuario)
+        val tvFecha: TextView = itemView.findViewById(R.id.tvFechaHora)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemAsistenciaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        val vista = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_asistencia, parent, false)
+        return ViewHolder(vista)
     }
 
-    override fun getItemCount(): Int = asistencias.size
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(asistencias[position])
+        val asistencia = lista[position]
+        holder.tvNombre.text = asistencia.nombreUsuario
+
+        val formatoEntrada = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val formatoSalida = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+
+        val fechaFormateada = try {
+            val fecha = formatoEntrada.parse(asistencia.fechaHora)
+            formatoSalida.format(fecha!!)
+        } catch (e: Exception) {
+            asistencia.fechaHora // Si falla el parseo, se muestra el string original
+        }
+
+        holder.tvFecha.text = fechaFormateada
+    }
+
+    override fun getItemCount(): Int = lista.size
+
+    fun actualizarLista(nuevaLista: List<Asistencia>) {
+        lista = nuevaLista
+        notifyDataSetChanged()
     }
 }

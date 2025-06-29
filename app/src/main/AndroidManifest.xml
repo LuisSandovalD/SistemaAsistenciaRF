@@ -3,9 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.sistemaasistenciarf">
 
+    <!-- Permisos necesarios para reconocimiento facial -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Declaración de características de hardware (no obligatorias) -->
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +22,7 @@
         android:theme="@style/Theme.SistemaAsistenciaRF"
         tools:targetApi="31">
 
-
+        <!-- Actividad de inicio -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -37,11 +41,30 @@
             </intent-filter>
         </activity>
 
+        <!-- Autenticación -->
         <activity android:name=".auth.AuthFragment" android:exported="true" />
 
         <activity android:name=".auth.RegisterFragment" android:exported="true" />
+        <activity android:name=".ui.asistencia.ListaAsistenciasActivity"  android:exported="true"/>
+        <activity android:name=".ui.admin.EditarAdminActivity"  android:exported="true"/>
 
+
+
+        <!-- Navegación principal -->
+        <activity android:name=".ui.MainActivity" android:exported="true" />
+
+        <!-- Gestión de usuarios -->
+        <activity
+            android:name=".ui.user.ListaUsuariosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.FormularioUsuarioActivity"
+            android:exported="false" />
+
+        <!-- Detección facial -->
+        <activity
+            android:name=".recognition.DeteccionFacialActivity"
+            android:exported="false"/>
 
     </application>
-
 </manifest>

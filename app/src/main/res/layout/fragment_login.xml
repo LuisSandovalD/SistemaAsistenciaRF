@@ -1,116 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#377cb5">
 
-    android:background="#FFFFFF">
-
-
-    <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/logo"
-
-
-        />
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+    <!-- Logo -->
+    <LinearLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:cardBackgroundColor="#fff">
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/authaccess"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FaceEntry"
+            android:textColor="#8dcde6"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:elevation="10dp"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <!-- Contenedor inferior -->
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:background="@drawable/radiusrectangle"
+        android:backgroundTint="#ffff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Label Correo -->
+        <TextView
+            android:id="@+id/textUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="32dp">
+            android:layout_marginBottom="8dp"
+            android:text="Correo Electrónico"
+            android:textColor="#0288D1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/authaccess"
-                />
-
-
-            <com.google.android.material.textfield.TextInputLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-            app:boxBackgroundMode="outline"
-                android:hint="Email"
-            app:boxStrokeColor="#BB86FC">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-
-                android:gravity="center_vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:inputType="textEmailAddress"
-                android:textColor="#000"
-                android:autofillHints="emailAddress"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-
+        <!-- Campo Usuario -->
+        <EditText
+            style="@style/EstiloBotonRedondeado"
+            android:background="@color/gray_100"
+            android:id="@+id/usernameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:hint="Contraseña"
-            app:boxBackgroundMode="outline"
-            app:boxStrokeColor="#BB86FC"
-            app:endIconMode="password_toggle">
+            android:textColor="@color/gray_700"
+            android:drawableStart="@drawable/baseline_email_24"
+            android:drawablePadding="16dp"
+            android:hint="luissandoval@gmail.com"
+            android:inputType="textEmailAddress"
+            android:padding="20dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:gravity="center_vertical"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
+        <!-- Label Contraseña -->
+        <TextView
+            android:id="@+id/textPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Contraseña"
+            android:textColor="#0288D1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-                android:inputType="textPassword"
-                android:textColor="#000"
-                android:autofillHints="password"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        <!-- Campo Contraseña -->
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:background="@color/gray_100"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="16dp"
+            android:hint="**************"
+            android:textColor="@color/gray_700"
+            android:inputType="textPassword"
+            android:padding="20dp" />
 
+        <!-- Botón Ingresar -->
+        <Button
+            style="@style/EstiloBotonRedondeado"
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:padding="20dp"
+            android:text="Ingresar"
+            android:textColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:backgroundTint="#0F1A3A"
-                android:text="Ingresar"
-                android:textColor="#F6F5F5"
-                android:textStyle="bold" />
+        <!-- Olvidaste tu contraseña -->
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textColor="#3F51B5"
+            android:textStyle="bold" />
 
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:background="#CCCCCC" />
 
-            <TextView
-                android:id="@+id/tvRegister"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:text="¿No tienes cuenta? Regístrate"
-                android:textColor="#BB86FC"
-                android:textStyle="italic"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        <!-- Crear cuenta -->
+        <TextView
+            android:id="@+id/registerLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="¿No tienes una cuenta? Regístrate"
+            android:textColor="#3F51B5"
+            android:textStyle="bold"
+            android:layout_marginBottom="35dp"/>
 
+    </LinearLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

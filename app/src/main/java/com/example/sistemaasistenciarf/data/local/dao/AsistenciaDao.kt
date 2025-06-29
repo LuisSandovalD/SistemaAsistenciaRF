@@ -6,6 +6,7 @@ import com.example.sistemaasistenciarf.data.model.Asistencia
 
 @Dao
 interface AsistenciaDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertar(asistencia: Asistencia)
 

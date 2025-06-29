@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 1. Inicio / Home principal -->
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Inicio" />
+
+    <!-- 2. Registrar usuario -->
+    <item
+        android:id="@+id/btn_registerUser"
+        android:icon="@drawable/registro"
+        android:title="Registrar" />
+
+    <!-- 3. Ver usuarios (mostrar información) -->
+    <item
+        android:id="@+id/btnVerUsuarios"
+        android:icon="@drawable/verificar"
+        android:title="Usuarios" />
+
+    <!-- 4. Editar perfil administrador -->
+    <item
+        android:id="@+id/btnEditarAdmin"
+        android:icon="@drawable/editar"
+        android:title="Editar perfil" />
+
+    <!-- 5. Asistencia facial -->
+    <item
+        android:id="@+id/btnTomarAsistencia"
+        android:icon="@drawable/camara"
+        android:title="Asistencia" />
+</menu>

@@ -1,64 +1,104 @@
 package com.example.sistemaasistenciarf.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.content.pm.PackageManager
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.*
-import androidx.compose.ui.Modifier
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.room.Room
+import androidx.activity.result.contract.ActivityResultContracts
+import com.example.sistemaasistenciarf.R
 import com.example.sistemaasistenciarf.data.local.database.AppDatabase
-import com.example.sistemaasistenciarf.data.repository.AsistenciaRepository
-import com.example.sistemaasistenciarf.domain.usecase.RegistrarAsistenciaUseCase
-import com.example.sistemaasistenciarf.ui.asistencia.AsistenciaViewModel
-import com.example.sistemaasistenciarf.ui.asistencia.AsistenciaViewModelFactory
-import com.example.sistemaasistenciarf.ui.components.CustomToolbar
-import com.example.sistemaasistenciarf.ui.theme.SistemaAsistenciaRFTheme
+import com.example.sistemaasistenciarf.data.model.UsuarioAdmin
+import com.example.sistemaasistenciarf.hideSystemUI
+import com.example.sistemaasistenciarf.recognition.DeteccionFacialActivity
+import com.example.sistemaasistenciarf.ui.admin.EditarAdminActivity
+import com.example.sistemaasistenciarf.ui.user.FormularioUsuarioActivity
+import com.example.sistemaasistenciarf.ui.user.ListaUsuariosActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var db: AppDatabase
+    private var adminActual: UsuarioAdmin? = null
+
+
+    private val editarAdminLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        adminActual?.id?.let { idAdmin ->
+            CoroutineScope(Dispatchers.IO).launch {
+                val actualizado = db.adminDao().obtenerTodos().firstOrNull { it.id == idAdmin }
+                runOnUiThread {
+                    actualizado?.let {
+                        adminActual = it
+                        findViewById<TextView>(R.id.tv_saludo)?.text =
+                            "Hola, ${it.nombre} ${it.apellido}"
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setContentView(R.layout.activity_main)
 
-        // ✅ Solicita el permiso de cámara si no ha sido concedido
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 100)
+        db = AppDatabase.obtenerBaseDeDatos(this)
+        adminActual = intent.getSerializableExtra("admin") as? UsuarioAdmin
+
+        configurarBottomNav()
+
+        adminActual?.let {
+            findViewById<TextView>(R.id.tv_saludo)?.text = "Hola, ${it.nombre} ${it.apellido}"
         }
 
-        // Inicializar la base de datos y dependencias
-        val database = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "asistencia-db"
-        ).build()
+        hideSystemUI()
 
-        val dao = database.asistenciaDao()
-        val repository = AsistenciaRepository(dao)
-        val useCase = RegistrarAsistenciaUseCase(repository)
+    }
 
-        setContent {
-            SistemaAsistenciaRFTheme {
-                val viewModel: AsistenciaViewModel = viewModel(
-                    factory = AsistenciaViewModelFactory(useCase)
-                )
 
-                Scaffold(
-                    topBar = {
-                        CustomToolbar(title = "Registro de Asistencia")
-                    }
-                ) { paddingValues ->
-                    AsistenciaScreen(
-                        viewModel = viewModel,
-                        modifier = Modifier.padding(paddingValues)
-                    )
+
+    private fun configurarBottomNav() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    Toast.makeText(this, "Inicio", Toast.LENGTH_SHORT).show()
+                    true
                 }
+
+                R.id.btn_registerUser -> {
+                    startActivity(Intent(this, FormularioUsuarioActivity::class.java))
+                    true
+                }
+
+                R.id.btnVerUsuarios -> {
+                    startActivity(Intent(this, ListaUsuariosActivity::class.java))
+                    true
+                }
+
+                R.id.btnEditarAdmin -> {
+                    adminActual?.let { admin ->
+                        val intent = Intent(this, EditarAdminActivity::class.java)
+                        intent.putExtra("admin", admin)
+                        editarAdminLauncher.launch(intent)
+                    } ?: run {
+                        Toast.makeText(this, "No hay administrador registrado", Toast.LENGTH_SHORT).show()
+                    }
+                    true
+                }
+
+                R.id.btnTomarAsistencia -> {
+                    startActivity(Intent(this, DeteccionFacialActivity::class.java))
+                    true
+                }
+
+                else -> false
             }
         }
     }

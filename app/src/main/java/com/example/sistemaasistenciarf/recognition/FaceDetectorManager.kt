@@ -8,10 +8,26 @@ class FaceDetectorManager(
     private val context: Context,
     private val lifecycleOwner: LifecycleOwner,
     private val previewView: PreviewView,
-    private val onDetect: (String) -> Unit
+    private val usuariosEmbebidos: List<UsuarioEmbebido>,
+    private val onUsuarioDetectado: (UsuarioEmbebido) -> Unit
 ) {
+
+    private var cameraStarted = false
+    private var faceAnalyzer: FaceAnalyzer? = null
+
     fun iniciar() {
-        val analyzer = FaceAnalyzer(onDetect)
-        CameraXHelper.iniciarCamara(context, lifecycleOwner, previewView, analyzer)
+        if (cameraStarted) return  // ✅ Evita reinicialización múltiple
+        cameraStarted = true
+
+        faceAnalyzer = FaceAnalyzer(context, usuariosEmbebidos, onUsuarioDetectado)
+        CameraXHelper.iniciarCamara(context, lifecycleOwner, previewView, faceAnalyzer!!)
+    }
+
+    fun close() {
+        cameraStarted = false
+
+        // Opcional: cerrar modelo facial y limpiar recursos si necesitas
+        faceAnalyzer?.cerrarModelo()
+        faceAnalyzer = null
     }
 }
