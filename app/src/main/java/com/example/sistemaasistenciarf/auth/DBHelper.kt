@@ -30,4 +30,6 @@ class DBHelper (context: Context) : SQLiteOpenHelper(context, "UserDB", null, 1)
         cursor.close()
         return exists
     }
+
+
 }

@@ -65,19 +65,27 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- Campo Usuario -->
-        <EditText
-            style="@style/EstiloBotonRedondeado"
-            android:background="@color/gray_100"
-            android:id="@+id/usernameEditText"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray_700"
-            android:drawableStart="@drawable/baseline_email_24"
-            android:drawablePadding="16dp"
-            android:hint="luissandoval@gmail.com"
-            android:inputType="textEmailAddress"
-            android:padding="20dp" />
+            app:hintEnabled="false">
+
+            <!-- Campo Usuario -->
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EstiloBotonRedondeado"
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_100"
+                android:textColor="@color/gray_700"
+                android:drawableStart="@drawable/baseline_email_24"
+                android:drawablePadding="16dp"
+                android:hint="luissandoval@gmail.com"
+                android:textColorHint="#ccc"
+                android:inputType="textEmailAddress"
+                android:padding="20dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Label Contraseña -->
         <TextView
@@ -90,19 +98,29 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- Campo Contraseña -->
-        <EditText
-            android:id="@+id/passwordEditText"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:background="@color/gray_100"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:drawableStart="@android:drawable/ic_lock_idle_lock"
-            android:drawablePadding="16dp"
-            android:hint="**************"
-            android:textColor="@color/gray_700"
-            android:inputType="textPassword"
-            android:padding="20dp" />
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/gray_700"
+            app:hintEnabled="false">
+
+            <!-- Campo Contraseña -->
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_100"
+                android:drawableStart="@android:drawable/ic_lock_lock"
+                android:drawablePadding="16dp"
+                android:hint="**************"
+                android:textColorHint="#ccc"
+                android:inputType="textPassword"
+                android:padding="20dp"
+                android:textColor="@color/gray_700" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Botón Ingresar -->
         <Button

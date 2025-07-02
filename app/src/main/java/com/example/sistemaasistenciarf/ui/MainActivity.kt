@@ -7,7 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.sistemaasistenciarf.R
+import com.example.sistemaasistenciarf.auth.DBHelper
 import com.example.sistemaasistenciarf.data.local.database.AppDatabase
 import com.example.sistemaasistenciarf.data.model.UsuarioAdmin
 import com.example.sistemaasistenciarf.hideSystemUI
@@ -37,6 +40,21 @@ class MainActivity : ComponentActivity() {
                         adminActual = it
                         findViewById<TextView>(R.id.tv_saludo)?.text =
                             "Hola, ${it.nombre} ${it.apellido}"
+
+
+
+                        val totalUsuarios = db.usuarioDao().contarUsuarios()
+
+                        val tvUsuarios = findViewById<TextView>(R.id.tvCantidadUsuarios)
+
+                        runOnUiThread {
+                            if (totalUsuarios > 0) {
+                                tvUsuarios.text = totalUsuarios.toString()
+                            } else {
+                                tvUsuarios.text = "Sin registros en la BD"
+                            }
+                        }
+
                     }
                 }
             }
